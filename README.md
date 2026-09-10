@@ -218,6 +218,18 @@ npm run dev   # starts on http://localhost:3600
 
 Compose creates the database on first initialization; the server creates the tables on startup. Run `docker compose down` from `server/` to stop MySQL while preserving its data. Database credentials are applied only when the data volume is first initialized; changing `.env` does not update existing MySQL users.
 
+### Create the first admin
+
+A fresh database has no users. With MySQL running and dependencies installed, run this once from `server/`:
+
+```bash
+npm run seed:admin
+```
+
+This initializes the schema, creates a school and an admin with email `admin@school.com`, and prints a randomly generated password. Save that password and use it to log in through the frontend or `POST /api/auth/login`. The credentials in the HTTP examples are not seeded automatically.
+
+Optionally set `ADMIN_EMAIL`, `ADMIN_PASSWORD` (at least 12 characters), `ADMIN_NAME`, and `SCHOOL_NAME` in `server/.env` before running the command. If any admin already exists, the command leaves accounts unchanged. Once logged in, admins can create users through `POST /api/users`.
+
 ### 3. Run the frontend
 
 ```bash
